@@ -10,6 +10,40 @@ struct stack{
 	int items[MAX_STACK];
 };
 
+stack* create_stack();
+void push(stack *stk, int newItem);
+void pop(stack *stk);
+void printStack(stack *stk);
+void stackPop(stack *stk);
+stack* invertePilha(stack *stk);
+void changeFirstLast(stack *stk);
+
+int main(){
+
+	int n;
+	stack *stk;
+
+	stk = create_stack();
+
+	push(stk, 1);
+	push(stk, 2);
+	push(stk, 3);
+	push(stk, 4);
+	push(stk, 5);
+	push(stk, 6);
+
+	printStack(stk);
+
+	stk = invertePilha(stk);
+
+	printf("--- PILHA INVERTIDA ---\n");
+	printStack(stk);
+
+	changeFirstLast(stk);
+
+	return 0;
+}
+
 stack* create_stack(){
 	stack *stk = (stack*)malloc(sizeof(stack));
 	stk->size = 0;
@@ -67,40 +101,32 @@ stack* invertePilha(stack *stk){
 }
 
 void changeFirstLast(stack *stk){
-	int topo, fim;
+	int topo, fim, aux;
+	stack *auxStk = create_stack();
 	topo = stk->items[stk->size-1];
-	fim = stk->items[0];
+	
+	pop(stk);
 
-	stk->items[stk->size-1] = fim;
-	stk->items[0] = topo;
+	auxStk = invertePilha(stk);
+
+	fim = auxStk->items[auxStk->size-1];
+
+	pop(auxStk);
+
+	while(stk->size>0){
+		pop(stk);
+	}
+
+	push(stk, topo);
+
+	while(auxStk->size!=0){
+		aux = auxStk->items[auxStk->size-1];
+		push(stk, aux);
+		pop(auxStk);
+	}
+
+	push(stk, fim); 
 
 	printf("--- TROCA DE TOPO E BASE ---\n");
 	printStack(stk);
-}
-
-int main(){
-
-	int n;
-	stack *stk;
-
-	stk = create_stack();
-
-	push(stk, 3);
-	push(stk, 2);
-	push(stk, 1);
-	push(stk, 5);
-	push(stk, 6);
-	push(stk, 7);
-
-	printStack(stk);
-
-	stk = invertePilha(stk);
-
-	printf("--- PILHA INVERTIDA ---\n");
-
-	printStack(stk);
-
-	changeFirstLast(stk);
-
-	return 0;
 }
