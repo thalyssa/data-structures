@@ -74,29 +74,18 @@ int symbSearch(char element){
 	return -1;
 }
 
-
 void printStack(stack *stk){
 	int i=stk->size-1;
 
-	/*if(i==0){
-		printf("Pilha Vazia!\n");
-	}*/
 	while(i>=0){
 		printf("%c", stk->items[i]);
 		i--;
 	}
 }
 
-int main(){
-
-	stack *stk;
-	char expression[100];
+void posfix(char *expression){
+	stack *stk = create_stack();
 	int i;
-
-	scanf("%s", expression);
-
-	stk = create_stack();
-
 	for(i=0;i<strlen(expression);i++){
 		if(numSearch(expression[i])!=-1){
 			printf("%c", expression[i]);
@@ -104,10 +93,52 @@ int main(){
 			push(stk, expression[i]);
 		}else{
 			printf("Caractere invalido!");
+			}
+		}
+
+		printStack(stk);
+}
+
+void prefix(char *expression){
+	stack *stk = create_stack();
+	stack *aux = create_stack();
+	int i;
+	for(i=0;i<strlen(expression);i++){
+		if(symbSearch(expression[i])!=-1){
+			printf("%c", expression[i]);
+		}else if(numSearch(expression[i])!=-1){
+			push(stk, expression[i]);
+		}else{
+			printf("Caractere inválido!");
 		}
 	}
 
-	printStack(stk);
+	//Inverter a pilha
+	//Printar os números
+
+}
+
+int main(){
+	
+	char expression[100];
+	int i, op;
+
+	scanf("%s", expression);
+
+	printf("Digite\n1: Prefixa\n2: Posfixa\n");
+	scanf("%d", &op);
+
+	switch(op){
+		case 1:
+			
+			break;
+		case 2:
+			posfix(expression);
+			break;
+		default:
+			printf("Opção inválida!\n");
+			break;
+	}
 
 
 	return 0;
