@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -74,6 +75,18 @@ int symbSearch(char element){
 	return -1;
 }
 
+stack* invertePilha(stack *stk){
+	stack *aux = create_stack();
+	int i, element;
+
+	for(i=stk->size-1;i>=0;i--){
+		element = stk->items[i];
+		push(aux, element);
+	}
+
+	return aux;
+}
+
 void printStack(stack *stk){
 	int i=stk->size-1;
 
@@ -113,8 +126,9 @@ void prefix(char *expression){
 		}
 	}
 
-	//Inverter a pilha
-	//Printar os números
+	aux = invertePilha(stk);
+
+	printStack(aux);
 
 }
 
@@ -123,17 +137,33 @@ int main(){
 	char expression[100];
 	int i, op;
 
+	printf("Digite uma expressão:\n");
 	scanf("%s", expression);
 
-	printf("Digite\n1: Prefixa\n2: Posfixa\n");
+	printf("Escolha\n1: Prefixa\n2: Posfixa\n3: Infixa\n");
 	scanf("%d", &op);
 
 	switch(op){
 		case 1:
-			
+			prefix(expression);
 			break;
 		case 2:
 			posfix(expression);
+			break;
+		case 3:
+			printf("A expressão original é...\n1 - Prefixa\n2: Posfixa\n");
+			scanf("%d", &i);
+			switch(i){
+				case 1:
+					//preToInfix(expression);
+					break;
+				case 2:
+					//posToInfix(expression);
+					break;
+				default:
+					printf("Opção inválida!!\n");
+					break;
+			}
 			break;
 		default:
 			printf("Opção inválida!\n");
