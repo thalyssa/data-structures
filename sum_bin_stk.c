@@ -12,7 +12,7 @@ struct stack{
 
 stack *create_stack();
 void push(stack *stk, int num);
-int pop(stack *stk);
+void pop(stack *stk);
 void printStack(stack *stk);
 void sum(stack *bin1, stack *bin2, int carry, stack *result, int count);
 
@@ -35,6 +35,15 @@ int main(){
 		push(bin2, bin);
 	}
 
+	/*printf("\nN1: \n");
+	printStack(bin1);
+	printf("\n");
+
+	printf("N2: \n");
+	printStack(bin2);
+	printf("\n");*/
+
+
 	sum(bin1, bin2, 0, result, 0);
 
 	return 0;
@@ -52,6 +61,7 @@ void push(stack *stk, int num){
 		printf("Stack Overflow!!!\n");
 	}else{ 
 		if(num == 1 || num == 0){ //Como a pilha não está cheia, verifica se o número empilhado é 0 ou 1 
+			//printf("Inserido\n");
 			stk->items[stk->size++] = num;
 		}else{ //Se a entrada for um número inválido
 			printf("Entrada inválida!\n");
@@ -59,20 +69,17 @@ void push(stack *stk, int num){
 	}
 }
 
-int pop(stack *stk){
+void pop(stack *stk){
 	if(stk->size==0){
 		printf("Pilha vazia\n");
-		return -1;
+	}else{
+		stk->size--;
 	}
-
-	int topo = stk->items[stk->size];
-	stk->size = stk->size--;
-	return topo;
 }
 
 void printStack(stack *stk){
 	int i = stk->size-1;
-	if(i == 0){
+	if(i <= 0){
 		printf("Pilha vazia!\n");
 	}else{
 		while(i>=0){
@@ -85,42 +92,49 @@ void printStack(stack *stk){
 void sum(stack *bin1, stack *bin2, int carry, stack *result, int count){
 	int n1, n2, aux, res;
 	if(count==8){
-		printStack(result);
-		return;
-	}else{
-		n1 = pop(bin1);
-		n2 = pop(bin2);
-		
-		if(n1==n2){
-			switch(n1){
-				case 1:
-					push(result,0);
-					aux = 1;
-					break;
-			 
-				case 0:
-					push(result,0);
-					aux = 0;
-				 	break;
-			}
-			
+		if(carry == 1){
+			printf("Stack Overflow!!\n");
 		}else{
+			printf("Resultado: \n");
+			printStack(result);
+			printf("\n");
+		}
+		return;
 
-			res = n1+n2+carry;
+	}else{
 
-			if(res==2){
-				push(result, 0);
-				aux = 1;
-			}else if(res>2){
-				push(result, 1);
-				aux = 0;
-			}else{
-				push(result, res);
-				aux = 0;
-			}
+		n1 = bin1->items[bin1->size-1];
+		n2 = bin2->items[bin2->size-1];
+
+		/*printf("Alg 1: %d\n", n1);
+		printf("Alg 2: %d\n", n2);
+		printf("\n");*/
+
+		pop(bin1);
+		pop(bin2);
+
+		res = n1+n2+carry;
+
+		if(res==2){
+			push(result, 0);
+			aux = 1;
+		}else if(res>2){
+			push(result, 1);
+			aux = 1;
+		}else{
+			push(result, res);
+			aux = 0;
+		}
 			
-		}//Fim ese
-	}//Fim else 2
+	}//Fim else
+
+	/*printf("Pilha 1: \n");
+	printStack(bin1);
+	printf("\n");
+
+	printf("Pilha 2: \n");
+	printStack(bin2);
+	printf("\n");*/
 
 	sum(bin1, bin2, aux, result, count+1);
 }
