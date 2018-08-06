@@ -12,8 +12,9 @@ struct stack{
 
 stack *create_stack();
 void push(stack *stk, int num);
-void pop(stack *stk);
+int pop(stack *stk);
 void printStack(stack *stk);
+void sum(stack *bin1, stack *bin2, int carry, stack *result, int count);
 
 int main(){
 
@@ -33,6 +34,8 @@ int main(){
 		scanf("%d", &bin);
 		push(bin2, bin);
 	}
+
+	sum(bin1, bin2, 0, result, 0);
 
 	return 0;
 }
@@ -56,8 +59,15 @@ void push(stack *stk, int num){
 	}
 }
 
-void pop(stack *stk){
+int pop(stack *stk){
+	if(stk->size==0){
+		printf("Pilha vazia\n");
+		return -1;
+	}
+
+	int topo = stk->items[stk->size];
 	stk->size = stk->size--;
+	return topo;
 }
 
 void printStack(stack *stk){
@@ -73,13 +83,44 @@ void printStack(stack *stk){
 }
 
 void sum(stack *bin1, stack *bin2, int carry, stack *result, int count){
+	int n1, n2, aux, res;
 	if(count==8){
+		printStack(result);
 		return;
 	}else{
-		int n1, n2, aux;
-		n1 = bin1->items[bin1->size];
-		n2 = bin2->items[bin2->size];
-		pop(bin1);
-		pop(bin2);
-	}
+		n1 = pop(bin1);
+		n2 = pop(bin2);
+		
+		if(n1==n2){
+			switch(n1){
+				case 1:
+					push(result,0);
+					aux = 1;
+					break;
+			 
+				case 0:
+					push(result,0);
+					aux = 0;
+				 	break;
+			}
+			
+		}else{
+
+			res = n1+n2+carry;
+
+			if(res==2){
+				push(result, 0);
+				aux = 1;
+			}else if(res>2){
+				push(result, 1);
+				aux = 0;
+			}else{
+				push(result, res);
+				aux = 0;
+			}
+			
+		}//Fim ese
+	}//Fim else 2
+
+	sum(bin1, bin2, aux, result, count+1);
 }
