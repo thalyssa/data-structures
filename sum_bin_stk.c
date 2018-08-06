@@ -12,6 +12,8 @@ struct stack{
 
 stack *create_stack();
 void push(stack *stk, int num);
+void pop(stack *stk);
+void printStack(stack *stk);
 
 int main(){
 
@@ -31,10 +33,6 @@ int main(){
 		scanf("%d", &bin);
 		push(bin2, bin);
 	}
-
-
-
-
 
 	return 0;
 }
@@ -74,6 +72,14 @@ void printStack(stack *stk){
 	}
 }
 
-void sum(stack *bin1, stack *bin2, int carry, stack *result){
-	
+void sum(stack *bin1, stack *bin2, int carry, stack *result, int count){
+	if(count==8){
+		return;
+	}else{
+		int n1, n2, aux;
+		n1 = bin1->items[bin1->size];
+		n2 = bin2->items[bin2->size];
+		pop(bin1);
+		pop(bin2);
+	}
 }
