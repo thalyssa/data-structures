@@ -20,26 +20,34 @@ struct queue{
 };
 
 void print_queue(queue *q);
-queue *create_queue(); //Funciona
-bool isEmpty(queue *q); //Funciona
-node *create_node(int data, int priority); //Funciona
+queue *create_queue();
+bool isEmpty(queue *q);
+node *create_node(int data, int priority);
 void enqueue();
-//int qsize();
-//int front();
-//int dequeue();
+int qsize(queue *q);
+void front(queue *q);
+void dequeue(queue *q);
 
 int main(){
 
 	queue *q = create_queue();
 	bool teste;
+	int size;
 
 	enqueue(q, 1, 0);
+	enqueue(q, 2, 0);
+	enqueue(q, 3, 0);
 
 	teste = isEmpty(q);
 
 	print_queue(q);
 
-	printf("%d\n", q->first->data);
+	size = qsize(q);
+
+	front(q);
+
+	dequeue(q);
+	front(q);
 
 	return 0;
 }
@@ -53,7 +61,6 @@ queue *create_queue(){
 
 bool isEmpty(queue *q){
 	if(q->first == NULL){
-		printf("Fila vazia\n");
 		return true;
 	}else{
 		return false;
@@ -74,22 +81,58 @@ void enqueue(queue *q, int data, int priority){
 	if(q->first == NULL){
 		q->first = create_node(data, priority);
 	}else{
-		queue *aux = (queue*)malloc(sizeof(queue));
-		aux->first = q->first;
-		while(aux->first->next!=NULL){
-			aux = aux->first->next;
+		node *aux = q->first;
+		while(aux->next!=NULL){
+			aux = aux->next;
 		}
-		aux->first->next = create_node(data, priority);
+		aux->next = create_node(data, priority);
 	}
-
-	printf("Enqueue\n");
 }
 
 void print_queue(queue *q){
-	queue *aux = (queue*)malloc(sizeof(queue));
+	if(isEmpty(q)){
+		printf("Fila Vazia!!\n");
+	}else{
+		queue *aux = (queue*)malloc(sizeof(queue));
 		aux->first = q->first;
-		do{
+		while(aux->first!=NULL){
 			printf("%d \n", aux->first->data);
-			aux = aux->first->next;
-		}while(aux->first->next!=NULL);
+			aux->first = aux->first->next;
+		}
+	}
+}
+
+int qsize(queue *q){
+	queue *aux = (queue*)malloc(sizeof(queue));
+	int cont=0;
+
+	aux->first = q->first;
+
+	while(aux->first!=NULL){
+		aux->first = aux->first->next;
+		cont++;
+	}
+
+	printf("Tamanho da fila: %d\n", cont);
+
+	return cont;
+}
+
+void front(queue *q){
+	if(isEmpty(q)){
+		printf("Fila vazia!\n");
+	}else{
+		node *first = q->first;
+		printf("Primeiro elemento: %d\n", first->data);
+	}
+}
+
+void dequeue(queue *q){
+	if(isEmpty(q)){
+		printf("Fila vazia!\n");
+	}else{
+		node *aux = q->first;
+		aux = aux->next;
+		q->first = aux;
+	}
 }
