@@ -19,20 +19,21 @@ struct queue{
 	node *first;
 };
 
-void print_queue(queue *q);
 queue *create_queue();
 bool isEmpty(queue *q);
 node *create_node(int data, int priority);
-void enqueue();
+void enqueue(queue *q, int data, int priority);
+void print_queue(queue *q);
 int qsize(queue *q);
 void front(queue *q);
 void dequeue(queue *q);
+int search(queue *q, int item); //Não funciona no primeiro número
 
 int main(){
 
 	queue *q = create_queue();
 	bool teste;
-	int size;
+	int size, seek;
 
 	enqueue(q, 1, 0);
 	enqueue(q, 2, 0);
@@ -48,6 +49,8 @@ int main(){
 
 	dequeue(q);
 	front(q);
+
+	seek = search(q, 1);
 
 	return 0;
 }
@@ -135,4 +138,22 @@ void dequeue(queue *q){
 		aux = aux->next;
 		q->first = aux;
 	}
+}
+
+int search(queue *q, int item){
+	if(isEmpty(q)){
+		printf("Fila vazia!\n");
+		return -1;
+	}else{
+		node *aux = q->first;
+		while(aux!=NULL){
+			if(aux->data == item){
+				printf("%d encontrado!\n", aux->data);
+				return aux->data;
+			}
+			aux = aux->next;
+		}
+		printf("Item não encontrado\n");
+		return -1;
+	}	
 }
