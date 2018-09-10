@@ -27,16 +27,19 @@ queue *positive(queue *q);
 
 int main(){
 
-	int n;
+	char n[1];
+	int item;
 	queue *initQ = create_queue();
 	queue *positiveQueue = create_queue();
 
 	printf("Digite apenas numeros para formar a primeira fila. Digite qualquer letra para encerrar: \n");
 
-	scanf("%d", &n);
+	scanf("%s", &n);
+
 	while(isdigit(n)!=0){
-		enqueue(initQ, n);
-		scanf("%d", &n);
+		item = atoi(n);
+		enqueue(initQ, item);
+		scanf("%s", &n);
 	}
 
 	positiveQueue = positive(initQ);
