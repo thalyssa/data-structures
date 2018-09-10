@@ -22,6 +22,18 @@ int maxi(int vet[], int size, int max){
 	}
 }
 
+//Elemento minimo de um vetor
+int mini(int vet[], int size, int min){
+	if(size == 0){
+		return min;
+	}else{
+		if(vet[size] < min){
+			min = vet[size];
+		}
+		return mini(vet, size-1, min);
+	}
+}
+
 //Função de Ackermann
 int ackermann(int m, int n){
 	if(m == 0){
@@ -33,9 +45,12 @@ int ackermann(int m, int n){
 	}
 }
 
+//Ordenação recursiva de vetor
+
+
 int main(){
 
-	int vet[5] = {1, 2, 3, 4, 5};
+	int vet[5] = {5, 3, 2, 4, 1};
 	int sum = vet_sum(vet, 4);
 	int a = ackermann(1, 2);
 	int max = maxi(vet, 4, 0);
