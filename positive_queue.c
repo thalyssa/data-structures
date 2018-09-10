@@ -31,15 +31,17 @@ int main(){
 	queue *initQ = create_queue();
 	queue *positiveQueue = create_queue();
 
-	enqueue(initQ, 1);
-	enqueue(initQ, 2);
-	enqueue(initQ, -2);
-	enqueue(initQ, 0);
+	printf("Digite apenas numeros para formar a primeira fila. Digite qualquer letra para encerrar: \n");
+
+	scanf("%d", &n);
+	while(isdigit(n)!=0){
+		enqueue(initQ, n);
+		scanf("%d", &n);
+	}
 
 	positiveQueue = positive(initQ);
 
 	print_queue(positiveQueue);
-
 
 	return 0;
 }
