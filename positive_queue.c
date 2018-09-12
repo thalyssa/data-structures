@@ -21,30 +21,28 @@ bool isEmpty(queue *q);
 node* create_node(int data);
 void enqueue(queue *q, int data);
 int dequeue(queue *q);
-void print_queue(queue *q);
-queue *positive(queue *q);
+queue* print_queue(queue *q);
+queue* positive(queue *q);
 
 
 int main(){
 
-	char n[1];
-	int item;
+	int item, i;
 	queue *initQ = create_queue();
 	queue *positiveQueue = create_queue();
 
-	printf("Digite apenas numeros para formar a primeira fila. Digite qualquer letra para encerrar: \n");
+	printf("Digite 20 numeros:\n");
 
-	scanf("%s", &n);
-
-	while(isdigit(n)!=0){
-		item = atoi(n);
+	for(i=0;i<20;i++){
+		scanf("%d", &item);
 		enqueue(initQ, item);
-		scanf("%s", &n);
 	}
 
 	positiveQueue = positive(initQ);
 
-	print_queue(positiveQueue);
+	printf("\nFILA DE POSITIVOS\n");
+
+	positiveQueue = print_queue(positiveQueue);
 
 	return 0;
 }
@@ -107,16 +105,20 @@ int dequeue(queue *q){
 	}
 }
 
-void print_queue(queue *q){
+queue* print_queue(queue *q){
 	if(isEmpty(q)){
 		printf("Fila Vazia!!\n");
+		return -1;
 	}else{
-		queue *aux = (queue*)malloc(sizeof(queue));
-		aux->first = q->first;
-		while(aux->first!=NULL){
-			printf("%d \n", aux->first->data);
-			aux->first = aux->first->next;
+		queue *aux = create_queue();
+		int item, p;
+		while(isEmpty(q) == false){
+			printf("%d\n", q->first->data);
+			item = dequeue(q);
+			enqueue(aux, item);
+
 		}
+		return aux;
 	}
 }
 
